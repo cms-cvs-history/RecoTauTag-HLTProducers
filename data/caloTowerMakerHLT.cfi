@@ -1,0 +1,11 @@
+ module caloTowerMakerHLT = CaloTowerCreatorForTauHLT {
+	untracked int32 verbose = 0
+	string towers = "towerMaker"
+	double UseTowersInCone = 0.8
+	int32 TauId = 0
+#	string TauTrigger = "Tau"
+        string TauTrigger = "Central"
+        InputTag l1seeds   = l1extramctruth
+	double minimumEt = 0.5
+	double minimumE  = 0.8
+   }
