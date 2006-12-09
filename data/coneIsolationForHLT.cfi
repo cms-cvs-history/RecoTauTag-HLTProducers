@@ -1,5 +1,5 @@
 #ConeIsolation
-module coneIsolationTauJetTags = ConeIsolation {
+module coneIsolationForHLT = ConeIsolation {
     string JetTrackSrc = "jetTracksAssociator"
     string vertexSrc = "pixelVertices"
     #  	int32 MinimumNumberOfPixelHits = 2
