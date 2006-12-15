@@ -5,10 +5,10 @@ module coneIsolationForHLT = ConeIsolation {
     #  	int32 MinimumNumberOfPixelHits = 2
     int32 MinimumNumberOfPixelHits = 2
     # 	int32 MinimumNumberOfHits = 8
-    int32 MinimumNumberOfHits = 2
-    double MaximumTransverseImpactParameter = 300.
+    int32 MinimumNumberOfHits = 5
+    double MaximumTransverseImpactParameter = 100.
     double MinimumTransverseMomentum = 1.
-    double MaximumChiSquared = 10000
+    double MaximumChiSquared = 100
 
     double MatchingCone = 0.1
     double	SignalCone = 0.07
@@ -17,7 +17,6 @@ module coneIsolationForHLT = ConeIsolation {
     double MinimumTransverseMomentumLeadingTrack = 6.
     double DeltaZetTrackVertex = 0.2
     int32 MaximumNumberOfTracksIsolationRing = 0.
-#    bool useVertex = false		
     bool useVertex = true		
 }
 
