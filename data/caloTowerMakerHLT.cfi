@@ -5,7 +5,7 @@
 	int32 TauId = 0
 	string TauTrigger = "Tau"
 #        string TauTrigger = "Central"
-        InputTag l1seeds   = l1extramctruth
+        InputTag l1seeds   = l1extraTaumctruth
 	double minimumEt = 0.5
 	double minimumE  = 0.8
    }
