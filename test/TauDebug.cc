@@ -12,7 +12,7 @@
 //
 // Original Author:  Simone Gennai
 //         Created:  Wed Apr 12 11:12:49 CEST 2006
-// $Id: TauDebug.cc,v 1.2 2006/12/15 11:03:52 gennai Exp $
+// $Id: TauDebug.cc,v 1.1 2006/12/15 16:28:45 gennai Exp $
 //
 //
 
@@ -22,6 +22,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
+#include <math>
 using namespace std;
 
 // user include files
@@ -43,12 +44,7 @@ using namespace std;
 #include "Math/GenVector/VectorUtil.h"
 #include "Math/GenVector/PxPyPzE4D.h"
 #include <DataFormats/VertexReco/interface/Vertex.h>
-#include <TH1.h>
 
-#include <TROOT.h>
-#include <TSystem.h>
-#include <TFile.h>
-#include <TCanvas.h>
 using namespace edm;
 using namespace reco; 
 
@@ -232,6 +228,19 @@ void TauDebug::endJob(){
   cout <<"L25TaggedJets Events "<<nEventsL25TaggedJets<<endl;
   cout <<"L3TauJets Events "<<nEventsL3TauJets<<endl;
   cout <<"L3TaggedJets Events "<<nEventsL3TaggedJets<<endl;
+
+  double effL25 = 1.*nEventsL25TaggedJets/ nEventsL2TauJets;
+  double errEffL25  = sqrt(effL25*(1-effL25)/nEventsL2TauJets);
+  cout <<"L25 Efficiency "<<setprecision(2)<<effL25 <<" +- " <<setprecision(1)<<errEffL25<<endl;
+
+  double effL3 = 1.*nEventsL3TaggedJets/ nEventsL25TaggedJets;
+  double errEffL3  = sqrt(effL3*(1-effL3)/nEventsL25TaggedJets);
+  cout <<"L3 Efficiency "<<setprecision(2)<<effL3 <<" +- " <<setprecision(1)<<errEffL3<<endl;
+
+  double effHLT = 1.*nEventsL3TaggedJets/ nEventsL2TauJets;
+  double errEffHLT  = sqrt(effHLT*(1-effHLT)/nEventsL2TauJets);
+  cout <<"HLT Efficiency "<< setprecision(2) << effHLT <<" +- " <<setprecision(1)<<errEffHLT<<endl;
+
   
 }
 DEFINE_SEAL_MODULE();
