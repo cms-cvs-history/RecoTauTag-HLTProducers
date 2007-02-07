@@ -16,7 +16,7 @@ module coneIsolationForHLT = ConeIsolation {
     double MinimumTransverseMomentumInIsolationRing = 0.
     double MinimumTransverseMomentumLeadingTrack = 6.
     double DeltaZetTrackVertex = 0.2
-    int32 MaximumNumberOfTracksIsolationRing = 0.
+    int32 MaximumNumberOfTracksIsolationRing = 0
     bool useVertex = true		
 }
 
