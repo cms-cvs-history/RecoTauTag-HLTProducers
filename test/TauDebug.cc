@@ -12,7 +12,7 @@
 //
 // Original Author:  Simone Gennai
 //         Created:  Wed Apr 12 11:12:49 CEST 2006
-// $Id: TauDebug.cc,v 1.1 2006/12/15 16:28:45 gennai Exp $
+// $Id: TauDebug.cc,v 1.2 2006/12/29 09:26:04 gennai Exp $
 //
 //
 
@@ -22,7 +22,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
-#include <math>
+#include <cmath>
 using namespace std;
 
 // user include files
