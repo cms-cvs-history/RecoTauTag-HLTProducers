@@ -8,7 +8,7 @@
 <use name=DataFormats/BTauReco>
 <library file=TauDebug.cc name=TauDebug>
   <use name=FWCore/Framework>
- <flags SEAL_PLUGIN_NAME="TauDebug">
+ <flags EDM_PLUGIN=1>
 </library>
 
 
