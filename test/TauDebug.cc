@@ -12,7 +12,7 @@
 //
 // Original Author:  Simone Gennai
 //         Created:  Wed Apr 12 11:12:49 CEST 2006
-// $Id: TauDebug.cc,v 1.2 2006/12/29 09:26:04 gennai Exp $
+// $Id: TauDebug.cc,v 1.3 2007/02/21 17:53:51 gennai Exp $
 //
 //
 
@@ -111,8 +111,8 @@ void TauDebug::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   
   Handle< L1ParticleMapCollection > mapColl ;
   iEvent.getByLabel( l1ParticleMap, mapColl );
-  const L1ParticleMap& singleTauMap = ( *mapColl )[L1ParticleMap::kSingleTau ] ;
-  const L1ParticleMap& doubleTauMap = ( *mapColl )[L1ParticleMap::kDoubleTau ] ;
+  const L1ParticleMap& singleTauMap = ( *mapColl )[L1ParticleMap::kSingleTauJet100 ] ;
+  const L1ParticleMap& doubleTauMap = ( *mapColl )[L1ParticleMap::kDoubleTauJet50 ] ;
 
   bool singleTauFired = singleTauMap.triggerDecision() ;
   bool doubleTauFired = doubleTauMap.triggerDecision() ;
