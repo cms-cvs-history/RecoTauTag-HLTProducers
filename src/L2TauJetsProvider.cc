@@ -15,7 +15,7 @@ L2TauJetsProvider::L2TauJetsProvider(const edm::ParameterSet& iConfig)
   l1ParticleMap = iConfig.getParameter<InputTag>("L1ParticleMap");
   l1Particles = iConfig.getParameter<InputTag>("L1Particles");
   singleTauTrigger = iConfig.getParameter<string>("L1SingleTauTrigger");
-  singleTauTrigger = iConfig.getParameter<string>("L1SingleTauMETTrigger");
+  singleTauMETTrigger = iConfig.getParameter<string>("L1SingleTauMETTrigger");
   doubleTauTrigger = iConfig.getParameter<string>("L1DoubleTauTrigger");
   electronTauTrigger = iConfig.getParameter<string>("L1IsoEMTauTrigger");
   muonTauTrigger = iConfig.getParameter<string>("L1MuonTrigger");
