@@ -44,11 +44,13 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 
  //Getting all the L1Seeds
  Handle< L1JetParticleCollection > tauColl ; 
- // InputTag tauJetInputTag( l1ParticleMap.label(), "Tau" ) ;
+
+
  iEvent.getByLabel( l1Particles, tauColl );
  const L1JetParticleCollection & myL1Tau  = *(tauColl.product()); 
 
  //Getting the Collections of L2ReconstructedJets from L1Seeds
+ //and removing the collinear jets
  myL2L1JetsMap.clear();
   int iL1Jet = 0;
  for( vtag::const_iterator s = jetSrc.begin(); s != jetSrc.end(); ++ s ) {
@@ -61,6 +63,28 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
    }
    iL1Jet++;
  }
+
+ //Removing the collinear jets
+ for(int iJet =0;iJet<4;iJet++)
+   {
+     map<int, const reco::CaloJet>::const_iterator myL2itr = myL2L1JetsMap.find(iJet);
+     if(myL2itr!=myL2L1JetsMap.end()){
+
+       const CaloJet my1stJet = myL2itr->second;
+       for(int i2Jet = iJet+1;i2Jet<4;i2Jet++)
+	 {
+	   map<int, const reco::CaloJet>::const_iterator my2L2itr = myL2L1JetsMap.find(i2Jet);
+	   if(my2L2itr!=myL2L1JetsMap.end()){
+	     const CaloJet my2ndJet = my2L2itr->second;
+	   
+	     double deltaR = ROOT::Math::VectorUtil::DeltaR(my1stJet.p4().Vect(), my2ndJet.p4().Vect());
+	     if(deltaR < 0.1) 
+	       myL2L1JetsMap.erase(my2L2itr->first);
+	   }
+	 }
+     }
+   }
+
   auto_ptr<CaloJetCollection> singleTaujets(new CaloJetCollection);
   auto_ptr<CaloJetCollection> singleTauMETjets(new CaloJetCollection);
   auto_ptr<CaloJetCollection> doubleTaujets(new CaloJetCollection);
