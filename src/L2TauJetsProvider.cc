@@ -79,7 +79,10 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 	   
 	     double deltaR = ROOT::Math::VectorUtil::DeltaR(my1stJet.p4().Vect(), my2ndJet.p4().Vect());
 	     if(deltaR < 0.1) 
-	       myL2L1JetsMap.erase(my2L2itr->first);
+	       {
+		 cout <<"Collinear jets "<<deltaR<<endl;
+		 myL2L1JetsMap.erase(my2L2itr->first);
+	       }
 	   }
 	 }
      }
@@ -190,8 +193,8 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 	    if(deltaR < matchingR) {
 	      const CaloJet myL2TauJet = myL2itr->second;
 	      if(myL2TauJet.pt() > mEt_Min){
-		doubleTaujets->push_back(myL2TauJet);
-		alreadyMatched = true;
+		singleTauMETjets->push_back(myL2TauJet);
+		//	alreadyMatched = true;
 	      }
 	    }
 	  } 
