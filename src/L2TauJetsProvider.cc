@@ -80,7 +80,7 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 	     double deltaR = ROOT::Math::VectorUtil::DeltaR(my1stJet.p4().Vect(), my2ndJet.p4().Vect());
 	     if(deltaR < 0.1) 
 	       {
-//		 cout <<"Collinear jets "<<deltaR<<endl;
+		 //		 cout <<"Collinear jets "<<deltaR<<endl;
 		 myL2L1JetsMap.erase(my2L2itr->first);
 	       }
 	   }
