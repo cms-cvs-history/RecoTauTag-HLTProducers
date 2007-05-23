@@ -127,7 +127,7 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 
 
  const L1ParticleMap& singleTauMap = ( *mapColl )[singleTauTrigger_] ;
- const L1ParticleMap& singleTauMETMap = ( *mapColl )[singleTauTrigger_] ;
+ const L1ParticleMap& singleTauMETMap = ( *mapColl )[singleTauMETTrigger_] ;
  const L1ParticleMap& doubleTauMap = ( *mapColl )[doubleTauTrigger_] ;
  const L1ParticleMap& electronTauMap = ( *mapColl )[electronTauTrigger_] ;
  const L1ParticleMap& muonTauMap = ( *mapColl )[muonTauTrigger_] ;
