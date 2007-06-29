@@ -3,25 +3,17 @@ module tauRegionalPixelSeedGenerator = SeedGeneratorFromRegionHitsEDProducer
     string TTRHBuilder        =  "WithTrackAngle"
     PSet RegionFactoryPSet = {
 	string ComponentName = "TauRegionalPixelSeedGenerator"
-	include "RecoTracker/TkTrackingRegions/data/GlobalTrackingRegion.cfi"
+	double ptMin=1.0
+	double originRadius=0.2
+	double originHalfLength=0.2
+	double deltaEtaRegion = 0.1
+	double deltaPhiRegion = 0.1
+	InputTag JetSrc = icone5Tau1
+	string vertexSrc ="pixelVertices"
     }
     PSet SeedComparitorPSet = { string ComponentName = "none" }
     PSet OrderedHitsFactoryPSet = {
 	string ComponentName = "StandardHitPairGenerator"
 	string SeedingLayers = "PixelLayerPairs"
     }
-    
 }
-/*
-replace tauRegionalPixelSeedGenerator.RegionFactoryPSet.RegionPSet = {
-    double ptMin = 1.0
-    bool   vertexZConstrained = false
-    double vertexZDefault = 0.0
-    string vertexSrc = ""
-    double originRadius = 0.2
-    double originHalfLength = 15.0
-    double deltaEtaRegion = 0.24
-    double deltaPhiRegion = 0.24
-    InputTag TrkSrc = L3Muons
-}
-*/
