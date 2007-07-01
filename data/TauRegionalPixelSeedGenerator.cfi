@@ -1,5 +1,5 @@
-module tauRegionalPixelSeedGenerator = SeedGeneratorFromRegionHitsEDProducer
-{
+module tauRegionalPixelSeedGenerator = SeedGeneratorFromRegionHitsEDProducer {
+    string TTRHBuilder        =  "WithTrackAngle"
     PSet RegionFactoryPSet = {
 	string ComponentName = "TauRegionalPixelSeedGenerator"
 	PSet RegionPSet = {  
@@ -12,13 +12,14 @@ module tauRegionalPixelSeedGenerator = SeedGeneratorFromRegionHitsEDProducer
 	    double deltaPhiRegion = 0.1
 	    InputTag JetSrc = icone5Tau1
 	    string vertexSrc ="pixelVertices"
+	    
 	}
     }
-    
     PSet SeedComparitorPSet = { string ComponentName = "none" }
     PSet OrderedHitsFactoryPSet = {
 	string ComponentName = "StandardHitPairGenerator"
 	string SeedingLayers = "PixelLayerPairs"
     }
 }
+
 
