@@ -179,7 +179,7 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 	      const CaloJet myL2TauJet = myL2itr->second;
 	      if(myL2TauJet.pt() > mEt_Min){
 		singleTaujets->push_back(myL2TauJet);
-		alreadyMatched = true;
+		//		alreadyMatched = true;
 		break;
 	      }
 	    }
@@ -194,37 +194,37 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 	      const CaloJet myL2TauJet = myL2itr->second;
 	      if(myL2TauJet.pt() > mEt_Min){
 		singleTauMETjets->push_back(myL2TauJet);
-		//	alreadyMatched = true;
+		alreadyMatched = true;
+		break;
 	      }
 	    }
 	  } 
 
 
 	//DoubleTau
-	if(alreadyMatched) continue;
-	L1JetParticleVectorRef::const_iterator myTau2 = myL1DoubleTaus.begin();
-	for(;myTau2 != myL1DoubleTaus.end();myTau2++)
-	  {
-	    deltaR = ROOT::Math::VectorUtil::DeltaR(myL1Tau[iJet].p4().Vect(), (*myTau2)->p4().Vect());
-	    if(deltaR < matchingR) {
-	      const CaloJet myL2TauJet = myL2itr->second;
-	      if(myL2TauJet.pt() > mEt_Min){
-		doubleTaujets->push_back(myL2TauJet);
-		alreadyMatched = true;
-		break;
+	if(!alreadyMatched) {
+	  L1JetParticleVectorRef::const_iterator myTau2 = myL1DoubleTaus.begin();
+	  for(;myTau2 != myL1DoubleTaus.end();myTau2++)
+	    {
+	      deltaR = ROOT::Math::VectorUtil::DeltaR(myL1Tau[iJet].p4().Vect(), (*myTau2)->p4().Vect());
+	      if(deltaR < matchingR) {
+		const CaloJet myL2TauJet = myL2itr->second;
+		if(myL2TauJet.pt() > mEt_Min){
+		  doubleTaujets->push_back(myL2TauJet);
+		  //		alreadyMatched = true;
+		  break;
+		}
 	      }
+	    }  
+
+	  double etL1Cand = myL1Tau[iJet].et(); 
+	  if(singleTauFired && (!doubleTauFired) && etL1Cand > mEt_ExtraTau ){
+	    const CaloJet myL2TauJet = myL2itr->second;
+	    if(myL2TauJet.pt() > mEt_Min){
+	      doubleExtraTaujets->push_back(myL2TauJet);
 	    }
-	  }  
-	if(alreadyMatched) continue;
-	
-	double etL1Cand = myL1Tau[iJet].et(); 
-	if(singleTauFired && (!doubleTauFired) && etL1Cand > mEt_ExtraTau ){
-	  const CaloJet myL2TauJet = myL2itr->second;
-	  if(myL2TauJet.pt() > mEt_Min){
-	    doubleExtraTaujets->push_back(myL2TauJet);
 	  }
 	}
-
 
 
 	L1JetParticleVectorRef::const_iterator myElectronTau = myL1ElectronTaus.begin();
@@ -235,12 +235,10 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 	      const CaloJet myL2TauJet = myL2itr->second;
 	      if(myL2TauJet.pt() > mEt_Min){
 		leptonTaujets->push_back(myL2TauJet);
-		alreadyMatched = true;
 		break;
 	      }
 	    }
 	  }  
-	if(alreadyMatched) continue;
 
 	L1JetParticleVectorRef::const_iterator myMuonTau = myL1MuonTaus.begin();
 	for(;myMuonTau != myL1MuonTaus.end();myMuonTau++)
@@ -250,12 +248,10 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 	      const CaloJet myL2TauJet = myL2itr->second;
 	      if(myL2TauJet.pt() > mEt_Min){
 		leptonTaujets->push_back(myL2TauJet);
-		alreadyMatched = true;
 		break;
 	      }
 	    }
 	  }  
-	if(alreadyMatched) continue;
 
       }
     }
