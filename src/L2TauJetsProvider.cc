@@ -143,12 +143,12 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
  bool singleTauFired = singleTauMap.triggerDecision() ;
  bool doubleTauFired = doubleTauMap.triggerDecision() ;
 
- /*
+
  cout <<"Trigger SingleTau "<<singleTauFired<<endl;
  cout <<"Trigger DoubleTau "<<doubleTauFired<<endl;
  cout <<"SingleTau objects: "<<myL1SingleTaus.size()<<endl;
  cout <<"DoubleTau objects: "<<myL1DoubleTaus.size()<<endl;
- */
+
 
  
 
@@ -177,9 +177,9 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 	    if(deltaR < matchingR) {
 	      //Getting back from the map the L2TauJet
 	      const CaloJet myL2TauJet = myL2itr->second;
-	      if(myL2TauJet.pt() > mEt_Min){
+	      	      if(myL2TauJet.pt() > mEt_Min){
 		singleTaujets->push_back(myL2TauJet);
-		//		alreadyMatched = true;
+		alreadyMatched = true;
 		break;
 	      }
 	    }
@@ -194,7 +194,7 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 	      const CaloJet myL2TauJet = myL2itr->second;
 	      if(myL2TauJet.pt() > mEt_Min){
 		singleTauMETjets->push_back(myL2TauJet);
-		alreadyMatched = true;
+		//		alreadyMatched = true;
 		break;
 	      }
 	    }
@@ -258,11 +258,11 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 
 
 
-  /*  
+
   cout <<"Size of SingleTau "<<singleTaujets->size()<<endl;
-  cout <<"Size of DoubleTau "<<doubleTaujets->size()<<endl;
-  cout <<"Size of LeptonTau "<<leptonTaujets->size()<<endl;
-  */
+  cout <<"Size of DoubleTau "<<doubleTaujets->size() + singleTaujets->size()<<endl;
+  //  cout <<"Size of LeptonTau "<<leptonTaujets->size()<<endl;
+
 
 
 

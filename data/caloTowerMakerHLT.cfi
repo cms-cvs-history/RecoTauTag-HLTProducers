@@ -1,5 +1,5 @@
 module caloTowerMakerHLT = CaloTowerCreatorForTauHLT {
-    untracked int32 verbose = 0
+    untracked int32 verbose = 1
     string towers = "towerMaker"
     double UseTowersInCone = 0.8
     int32 TauId = 0
