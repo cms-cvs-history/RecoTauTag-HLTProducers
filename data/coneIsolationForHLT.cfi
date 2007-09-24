@@ -1,6 +1,6 @@
 #ConeIsolation
 module coneIsolationForHLT = ConeIsolation {
-    string JetTrackSrc = "jetTracksAssociator"
+    string JetTrackSrc = "ic5JetTracksAssociatorAtVertex"
     string vertexSrc = "pixelVertices"
     int32 MinimumNumberOfPixelHits = 2
     int32 MinimumNumberOfHits = 5
