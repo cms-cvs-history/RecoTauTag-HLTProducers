@@ -1,0 +1,9 @@
+module l2TauJetsProvider = L2TauJetsProvider {
+  VInputTag JetSrc = { icone5Tau1,icone5Tau2,icone5Tau3,icone5Tau4 }
+    InputTag L1Particles = l1extraParticles:Tau
+    string L1TauTrigger = "DummyHLTL1SeedFilter"
+    double EtMin = 15.
+}
+
+
+
