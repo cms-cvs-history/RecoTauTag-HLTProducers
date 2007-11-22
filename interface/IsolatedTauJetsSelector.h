@@ -34,7 +34,7 @@ class IsolatedTauJetsSelector: public edm::EDProducer {
  int n_tracks_isolation_ring;
  bool useVertex;
  edm::InputTag vertexSrc;
- 
+bool useInHLTOpen; 
   
 
 };
