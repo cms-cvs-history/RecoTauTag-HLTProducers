@@ -11,10 +11,11 @@
 #include "FWCore/ParameterSet/interface/InputTag.h"
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/Common/interface/EDProduct.h"
+#include "DataFormats/Common/interface/View.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "DataFormats/TrackReco/interface/Track.h"
-#include "DataFormats/JetReco/interface/CaloJetCollection.h"
+#include "DataFormats/JetReco/interface/Jet.h"
 #include "DataFormats/Math/interface/Vector3D.h"
 #include "RecoTracker/TkTrackingRegions/interface/TrackingRegionProducer.h"
 #include "RecoTracker/TkTrackingRegions/interface/GlobalTrackingRegion.h"
@@ -68,11 +69,11 @@ class TauRegionalPixelSeedGenerator : public TrackingRegionProducer {
       }
       
       // get the jet direction
-      edm::Handle<reco::CaloJetCollection> h_jets;
+      edm::Handle<edm::View<reco::Jet> > h_jets;
       e.getByLabel(m_jetSrc, h_jets);
-      const reco::CaloJetCollection & jets = * h_jets;
+      const edm::View<reco::Jet> & jets = * h_jets;
       
-      for (reco::CaloJetCollection::const_iterator iJet = jets.begin(); iJet != jets.end(); ++iJet)
+      for (edm::View<reco::Jet>::const_iterator iJet = jets.begin(); iJet != jets.end(); iJet++) 
       {
           GlobalVector jetVector(iJet->p4().x(), iJet->p4().y(), iJet->p4().z());
           GlobalPoint  vertex(0, 0, originZ);
