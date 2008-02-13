@@ -3,6 +3,7 @@ module coneIsolationForHLT = ConeIsolation {
     string JetTrackSrc = "jetTracksAssociator"
     string vertexSrc = "pixelVertices"
     bool useBeamSpot = true
+    InputTag BeamSpotProducer = offlineBeamSpot
     int32 MinimumNumberOfPixelHits = 2
     int32 MinimumNumberOfHits = 5
     double MaximumTransverseImpactParameter = 0.03
