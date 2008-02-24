@@ -1,12 +1,14 @@
-module doubleTauL2Selector = L2TauIsolationSelector 
+module L2TauIsolationSelector = L2TauIsolationSelector 
 {
 	InputTag L2InfoAssociation = doubleTauL2Producer:L2TauIsolationInfoAssociator
-	double ECALIsolEt = 3.0
-	double TowerIsolEt = 4.0
-	double ClusterEtaRMS = 0.1
-	double ClusterPhiRMS = 1.0
-	double ClusterDRRMS = 1.0
-	int32 ClusterNClusters  =7
+	double MinJetEt         = 15.0
+	double SeedTowerEt      = 0.
+	double ECALIsolEt       = 4.0
+	double TowerIsolEt      = 6.0
+	double ClusterEtaRMS    = 0.2
+	double ClusterPhiRMS    = 0.3
+	double ClusterDRRMS     = 0.4
+	int32 ClusterNClusters  =10
 }
 
  

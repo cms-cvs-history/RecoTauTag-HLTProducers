@@ -1,4 +1,4 @@
-module doubleTauL2Producer = L2TauIsolationProducer 
+module L2TauIsolationProducer = L2TauIsolationProducer 
 {
      #pick the collection you want to access	 
      InputTag L2TauJetCollection = l2TauJetsProvider:DoubleTau  
