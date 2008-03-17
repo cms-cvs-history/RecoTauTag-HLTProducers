@@ -1,6 +1,6 @@
 module caloTowerMakerHLT = CaloTowerCreatorForTauHLT {
     untracked int32 verbose = 0
-    InputTag towers = "towerMaker"
+    InputTag towers = towerMaker
     double UseTowersInCone = 0.8
     int32 TauId = 0
     InputTag TauTrigger = l1extraParticles:Tau
