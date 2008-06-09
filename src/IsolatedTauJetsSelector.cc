@@ -28,13 +28,9 @@ void IsolatedTauJetsSelector::produce(edm::Event& iEvent, const edm::EventSetup&
   using namespace edm;
   using namespace std;
   
-  CaloJetCollection* myJetCollection = new CaloJetCollection;
   CaloJetCollection * jetCollection =new CaloJetCollection;
   CaloJetCollection * jetCollectionTmp = new CaloJetCollection;
-    IsolatedTauTagInfoCollection * extendedCollection = new IsolatedTauTagInfoCollection;
-
-    //matching cone
-    float mc_cone = 0.1;
+//    IsolatedTauTagInfoCollection * extendedCollection = new IsolatedTauTagInfoCollection;
 
   for( vtag::const_iterator s = jetSrc.begin(); s != jetSrc.end(); ++ s ) {
     edm::Handle<IsolatedTauTagInfoCollection> tauJets;
@@ -44,8 +40,10 @@ void IsolatedTauJetsSelector::produce(edm::Event& iEvent, const edm::EventSetup&
 
       if(useInHLTOpen) {
 	const CaloJet* pippo = dynamic_cast<const CaloJet*>((i->jet().get()));
-	jetCollectionTmp->push_back(*pippo);
-	extendedCollection->push_back(*(i)); //to  be used later
+	CaloJet* mioPippo = const_cast<CaloJet*>(pippo);
+	mioPippo->Particle::setPdgId(15);
+	jetCollectionTmp->push_back(*mioPippo);
+	//	extendedCollection->push_back(*(i)); //to  be used later
 	//	delete pippo;
       }else{
 	const TrackRef leadTk = i->leadingSignalTrack();
@@ -54,13 +52,15 @@ void IsolatedTauJetsSelector::produce(edm::Event& iEvent, const edm::EventSetup&
 	if(leadTk->pt() >  pt_min_leadTrack) {	   
 	  float discriminator = i->discriminator();	  
 	  const CaloJet* pippo = dynamic_cast<const CaloJet*>((i->jet().get()));
+	  CaloJet* mioPippo = const_cast<CaloJet*>(pippo);
+	  mioPippo->Particle::setPdgId(15);
 	  if(useIsolationDiscriminator && (discriminator > 0) ) {
-	    jetCollectionTmp->push_back(*pippo);
-	    extendedCollection->push_back(*(i)); //to  be used later
+	    jetCollectionTmp->push_back(*mioPippo);
+	// extendedCollection->push_back(*(i)); //to  be used later
 	    // delete pippo;
 	  }else if(!useIsolationDiscriminator){
-	    jetCollectionTmp->push_back(*pippo);
-	    extendedCollection->push_back(*(i)); //to  be used later
+	    jetCollectionTmp->push_back(*mioPippo);
+	 //   extendedCollection->push_back(*(i)); //to  be used later
 	    }
 	  }
 	}
@@ -69,51 +69,14 @@ void IsolatedTauJetsSelector::produce(edm::Event& iEvent, const edm::EventSetup&
   }
 
 
-  /*
-  if(useVertex){//We have to select jets which comes from the same vertex
-
-    //Using vertex constraint needed for Pixel
-    VertexCollection::const_iterator myVertex = vertices->begin();
-
-    for(;myVertex!= vertices->end();myVertex++){
-      
-
-      IsolatedTauTagInfoCollection::const_iterator myIsolJet = extendedCollection->begin();
-      int taggedJets=0;
-      for(;myIsolJet!=extendedCollection->end();myIsolJet++){
-	const TrackRef leadTk = myIsolJet->leadingSignalTrack(matching_cone, pt_min_leadTrack);
-	double deltaZLeadTrackVertex = fabs(myVertex->z() - leadTk->dz());
-	//Check leadingTrack_z_imp and PV list
-	if(deltaZLeadTrackVertex <dZ_vertex)
-	  {
-	    JetTracksAssociationRef     jetTracks = myIsolJet->jtaRef();
-	    taggedJets++;
-	    const CaloJet* pippo = dynamic_cast<const CaloJet*>(myIsolJet->jet().get());
-	    myJetCollection->push_back(*pippo);
-	    //	    delete pippo;
-	  }
-      }
-      //check if we have at least 2 jets from the same vertex
-      //      cout <<"Tagged Jets with vertex constr "<<taggedJets<<endl;
-      if(taggedJets > 1) 
-	{
-	  jetCollection = myJetCollection;
-	  break;
-	}
-    }
-  }else{// no Vertex constraint is used 
-    
-jetCollection = jetCollectionTmp;
-  }
-  */
   jetCollection = jetCollectionTmp;
 
 
   
   auto_ptr<reco::CaloJetCollection> selectedTaus(jetCollection);
-  auto_ptr<reco::IsolatedTauTagInfoCollection> extColl(extendedCollection);
+//  auto_ptr<reco::IsolatedTauTagInfoCollection> extColl(extendedCollection);
   
-  iEvent.put(extColl);
+  //iEvent.put(extColl);
   iEvent.put(selectedTaus);
 
 
