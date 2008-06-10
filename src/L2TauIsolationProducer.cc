@@ -3,7 +3,6 @@
 #include "Geometry/Records/interface/CaloGeometryRecord.h"
 
 
-
 L2TauIsolationProducer::L2TauIsolationProducer(const edm::ParameterSet& iConfig):
   l2CaloJets_(iConfig.getParameter<edm::InputTag>("L2TauJetCollection")),
   EBRecHits_(iConfig.getParameter<edm::InputTag>("EBRecHits")),
@@ -22,7 +21,7 @@ L2TauIsolationProducer::L2TauIsolationProducer(const edm::ParameterSet& iConfig)
 
   //ECAL Clustering
   edm::ParameterSet ECALClusterParams = iConfig.getParameter<edm::ParameterSet>("ECALClustering") ;
-      
+  ECALClustering_run_    =  ECALClusterParams.getParameter<bool>( "runAlgorithm" );
   ECALClustering_clusterRadius_ =  ECALClusterParams.getParameter<double>( "clusterRadius" );
     
   //Tower Isolation
@@ -78,7 +77,7 @@ L2TauIsolationProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetu
 	   L2TauIsolationInfo l2info; //Create Info Object
 
 	   //Run ECALIsolation 
-	   if( (ECALIsolation_run_))
+	   if(ECALIsolation_run_)
 	     {
 	       L2TauECALIsolation ecal_isolation(ECALIsolation_innerCone_,ECALIsolation_outerCone_);
 	       ecal_isolation.run(getECALHits(*jc,iEvent,iSetup),*jc,l2info);
