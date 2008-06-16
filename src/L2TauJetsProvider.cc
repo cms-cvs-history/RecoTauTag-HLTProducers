@@ -3,7 +3,7 @@
 #include "DataFormats/L1Trigger/interface/L1JetParticle.h"
 #include "DataFormats/L1Trigger/interface/L1JetParticleFwd.h"
 #include "DataFormats/HLTReco/interface/TriggerTypeDefs.h"
-
+#include "FWCore/Utilities/interface/EDMException.h"
 //
 // class decleration
 //
@@ -15,11 +15,10 @@ using namespace l1extra;
 L2TauJetsProvider::L2TauJetsProvider(const edm::ParameterSet& iConfig)
 {
   jetSrc = iConfig.getParameter<vtag>("JetSrc");
-  l1Particles = iConfig.getParameter<InputTag>("L1Particles");
+  l1ParticlesTau = iConfig.getParameter<InputTag>("L1ParticlesTau");
+  l1ParticlesJet = iConfig.getParameter<InputTag>("L1ParticlesJet");
   tauTrigger = iConfig.getParameter<InputTag>("L1TauTrigger");
   mEt_Min = iConfig.getParameter<double>("EtMin");
-
-  
   
   produces<CaloJetCollection>();
 }
@@ -37,11 +36,7 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
 
 
  //Getting all the L1Seeds
- Handle< L1JetParticleCollection > tauColl ; 
 
- 
- iEvent.getByLabel( l1Particles, tauColl );
- const L1JetParticleCollection & myL1Tau  = *(tauColl.product()); 
  
  //Getting the Collections of L2ReconstructedJets from L1Seeds
  //and removing the collinear jets
@@ -59,13 +54,13 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
  }
  
  //Removing the collinear jets
- for(int iJet =0;iJet<4;iJet++)
+ for(int iJet =0;iJet<iL1Jet;iJet++)
    {
      map<int, const reco::CaloJet>::const_iterator myL2itr = myL2L1JetsMap.find(iJet);
      if(myL2itr!=myL2L1JetsMap.end()){
        
        const CaloJet my1stJet = myL2itr->second;
-       for(int i2Jet = iJet+1;i2Jet<4;i2Jet++)
+       for(int i2Jet = iJet+1;i2Jet<iL1Jet;i2Jet++)
 	 {
 	   map<int, const reco::CaloJet>::const_iterator my2L2itr = myL2L1JetsMap.find(i2Jet);
 	   if(my2L2itr!=myL2L1JetsMap.end()){
@@ -93,21 +88,46 @@ void L2TauJetsProvider::produce(edm::Event& iEvent, const edm::EventSetup& iES)
   //Loop over the Map to find which jets has fired the trigger
   //myL1Tau is the Collection of L1TauCandidates (from 0 to max  4 elements)
   //get the list of trigger candidates from the HLTL1SeedGT filter
-
+  Handle< L1JetParticleCollection > tauColl ; 
+  Handle< L1JetParticleCollection > jetColl ; 
+  
+  iEvent.getByLabel( l1ParticlesTau, tauColl );
+  iEvent.getByLabel(l1ParticlesJet, jetColl);
+  const L1JetParticleCollection & myL1Tau  = *(tauColl.product());
+  const L1JetParticleCollection & myL1Jet  = *(jetColl.product());
+  L1JetParticleCollection myL1Obj;
+  for(int i=0;i<myL1Tau.size();i++)
+    {
+      myL1Obj.push_back(myL1Tau[i]);
+    }
+  for(int i=0;i<myL1Jet.size();i++)
+    {
+      myL1Obj.push_back(myL1Jet[i]);
+    }
   Handle<trigger::TriggerFilterObjectWithRefs> l1TriggeredTaus;
 
   if(iEvent.getByLabel(tauTrigger,l1TriggeredTaus)){
 
     //    typedef std::vector<l1extra::L1JetParticleRef>     VRl1jet;
-vector<L1JetParticleRef> tauCandRefVec;
+    vector<L1JetParticleRef> tauCandRefVec;
+    vector<L1JetParticleRef> jetCandRefVec;
+    vector<L1JetParticleRef> objL1CandRefVec;
     L1JetParticleRef tauCandRef;
-    l1TriggeredTaus->getObjects(trigger::TriggerL1TauJet,tauCandRefVec);
 
 
-    for( unsigned int iL1Tau=0; iL1Tau <tauCandRefVec.size();iL1Tau++)
+	l1TriggeredTaus->getObjects( trigger::TriggerL1TauJet,tauCandRefVec);
+	l1TriggeredTaus->getObjects( trigger::TriggerL1CenJet,jetCandRefVec);
+	
+	for(int i=0;i<tauCandRefVec.size();i++)
+	  objL1CandRefVec.push_back(tauCandRefVec[i]);
+
+	for(int i=0;i<jetCandRefVec.size();i++)
+	    objL1CandRefVec.push_back(jetCandRefVec[i]);
+
+    for( unsigned int iL1Tau=0; iL1Tau <objL1CandRefVec.size();iL1Tau++)
       {  
-	tauCandRef = tauCandRefVec[iL1Tau];
-	for(int iJet=0;iJet<myL1Tau.size();iJet++)
+	tauCandRef = objL1CandRefVec[iL1Tau];
+	for(int iJet=0;iJet<myL1Obj.size();iJet++)
 	  {
 	    bool alreadyMatched = false;
 	    //Find the relative L2TauJets, to see if it has been reconstructed
@@ -130,6 +150,8 @@ vector<L1JetParticleRef> tauCandRefVec;
     }
 
   }
+//    cout <<"Size of L2 jets "<<tauL2jets->size()<<endl;
+
   iEvent.put(tauL2jets);
 
 }
