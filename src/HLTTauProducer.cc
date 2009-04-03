@@ -13,6 +13,8 @@ HLTTauProducer::HLTTauProducer(const edm::ParameterSet& iConfig)
   matchingCone_ = iConfig.getParameter<double>("MatchingCone");
   signalCone_ = iConfig.getParameter<double>("SignalCone");
   isolationCone_ = iConfig.getParameter<double>("IsolationCone");
+  ptMinLeadTk_ = iConfig.getParameter<double>("LeadTkMinPt");
+
   produces<reco::HLTTauCollection>();
 }
 
