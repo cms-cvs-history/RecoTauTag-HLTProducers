@@ -36,12 +36,12 @@ void DQMTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iES)
   IsolatedTauTagInfoCollection tau = *(tauL25Jets.product());
 
   
-  int i=0;
-  float eta_, phi_, pt_, ptLeadTk;
-  int trackIsolation;  
-  int nTracks;
+    float eta_, phi_, pt_;
+    float ptLeadTk=0.;
+  int trackIsolation=1000.;  
+  int nTracks=1000.;
 
- for(int i=0; i<tau.size();i++)
+ for(unsigned int i=0; i<tau.size();i++)
    {
      JetTracksAssociationRef jetTracks = tau[i].jtaRef();
      math::XYZVector jetDir(jetTracks->first->px(),jetTracks->first->py(),jetTracks->first->pz());   
