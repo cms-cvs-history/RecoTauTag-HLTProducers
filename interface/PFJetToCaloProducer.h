@@ -1,5 +1,5 @@
-#ifndef PFTauToJetProducer_H
-#define PFTauToJetProducer_H
+#ifndef PFJetToCaloProducer_H
+#define PFJetToCaloProducer_H
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
@@ -11,14 +11,14 @@
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/JetReco/interface/PFJetCollection.h"
 #include "DataFormats/JetReco/interface/CaloJetCollection.h"
-#include "DataFormats/TauReco/interface/PFTau.h"
 
 
 
-class PFTauToJetProducer: public edm::EDProducer {
+
+class PFJetToCaloProducer: public edm::EDProducer {
  public:
-  explicit PFTauToJetProducer(const edm::ParameterSet&);
-  ~PFTauToJetProducer();
+  explicit PFJetToCaloProducer(const edm::ParameterSet&);
+  ~PFJetToCaloProducer();
   virtual void produce(edm::Event&, const edm::EventSetup&);
 
  private:
