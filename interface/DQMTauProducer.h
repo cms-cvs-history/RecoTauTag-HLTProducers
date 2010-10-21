@@ -1,5 +1,5 @@
-#ifndef HLTTauProducer_H
-#define HLTTauProducer_H
+#ifndef DQMTauProducer_H
+#define DQMTauProducer_H
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
@@ -15,16 +15,14 @@
 
 
 
-class HLTTauProducer: public edm::EDProducer {
+class DQMTauProducer: public edm::EDProducer {
  public:
-  explicit HLTTauProducer(const edm::ParameterSet&);
-  ~HLTTauProducer();
+  explicit DQMTauProducer(const edm::ParameterSet&);
+  ~DQMTauProducer();
   virtual void produce(edm::Event&, const edm::EventSetup&);
 
  private:
-  edm::InputTag emIsolatedJetsL2_;
-  edm::InputTag trackIsolatedJetsL25_;
-  edm::InputTag trackIsolatedJetsL3_;
+  edm::InputTag trackIsolatedJets_;
   double rmin_,rmax_,matchingCone_ ,ptMinLeadTk_, signalCone_, isolationCone_, ptMin_;
 
 };
